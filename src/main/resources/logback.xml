@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <property name="APP" value="code4j-test-spring-mongo"/>
+    <property name="LOG_HOME" value="/logs/${APP}"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yy-MM-dd.HH:mm:ss.SSS} [%t] %-5p %-22c{0} - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="DETAIL" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+        <File>${LOG_HOME}/${APP}_detail.log</File>
+        <encoder>
+            <pattern>%d{yy-MM-dd.HH:mm:ss.SSS} [%t] %-5p %-22c{0} - %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${APP}_detail.log.%d{yyyyMMddHH}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <File>${LOG_HOME}/${APP}_error.log</File>
+        <encoder>
+            <pattern>%d{yy-MM-dd.HH:mm:ss.SSS} [%t] %-5p %-22c{0} - %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${APP}_error.log.%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+        <File>${LOG_HOME}/${APP}_access.log</File>
+        <encoder>
+            <pattern>%d{yy-MM-dd.HH:mm:ss.SSS},%m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${APP}_access.log.%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+
+    <logger name="ACCESS">
+        <appender-ref ref="ACCESS"/>
+    </logger>
+    <logger name="org.springframework" level="INFO"/>
+
+
+    <root level="DEBUG">
+        <appender-ref ref="DETAIL"/>
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="CONSOLE"/>
+        <!--<appender-ref ref="DETAIL2"/>-->
+    </root>
+</configuration>
